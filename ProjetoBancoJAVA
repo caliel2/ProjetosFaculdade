@@ -1,0 +1,296 @@
+//a atividade é para fazer um banco onde eu posso cadastrar as pessoas com o gerente, e a pessoa fisica é as pesssoas cadastrada que eu cadastrei no gerente, nessas
+//pessoas cadastrada ela vai poder depositar sacar, acho que é so isso
+//senha do gerente é 12345 ja definida, ai eu vou cadastrar as info da pessoa fisica
+//o numero do usuario ja vai ser criada em ordem, ent coloca logo um 980 pra cima de pessoa cadastrada
+//para acessar a pessoa fisica eu coloco o numero da conta e a senha
+//vai aparecer um menu do banco e cada coisa que ue for fazer tem que verificar a senha e o numero da conta
+//menu é info da conta (listar), depositar, sacar, transferir,  , sair da conta volta para o menu inicial, 
+
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+//ESTOU TENTANDO CRIAR O ARRAY LIST PÁRA ESSA ATIVIDADE BB
+class Pessoa {
+
+    private String nome;
+    private String CPF;
+    private String email;
+    private String endereco;
+    private int conta;
+    private int senha;
+    private double dinheiro;
+
+    public Pessoa(String nome, String CPF, String email, String endereco, int conta, double dinheiro, int senha) {
+        this.nome = nome;
+        this.CPF = CPF;
+        this.email = email;
+        this.endereco = endereco;
+        this.conta = conta;
+        this.dinheiro = dinheiro;
+        this.senha = senha;
+    }
+
+    public void setDinheiro(double dinheiro) {
+        this.dinheiro = dinheiro;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public int getConta() {
+        return conta;
+    }
+
+    public double getDinheiro() {
+        return dinheiro;
+    }
+
+    public int getSenha() {
+        return senha;
+    }
+
+}
+
+class Cadastro {
+
+    private ArrayList<Pessoa> pessoa = new ArrayList<>();
+
+    public void gerente() {
+
+        int conta = 900;
+        int esc1 = 0;
+        int esc2 = 0;
+        double dinheiro = 0;
+        while (esc1 >= 0 && esc1 <= 2) {
+            esc1 = Integer.parseInt(JOptionPane.showInputDialog(null, "----------------MENU----------------\n1 --> GERENTE (criar conta)\n2 --> PESSOA FISICA(entrar na conta)\n3 --> SAIR DA AGENCIA"));
+
+            if (esc1 == 1) {
+                int senhag = 12345;
+                int verific = 0;
+
+                verific = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite a senha do gerente"));
+
+                while (verific != senhag) {
+                    verific = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite a senha CERTA do gerente"));
+                }
+
+                String nome = JOptionPane.showInputDialog(null, "CRIAR CONTA\ndigite o nome da pessoa física:");
+                String CPF = JOptionPane.showInputDialog(null, "CRIAR CONTA\nCPF:");
+                String email = JOptionPane.showInputDialog(null, "CRIAR CONTA\nE-MAIL:");
+                String endereco = JOptionPane.showInputDialog(null, "CRIAR CONTA\nENDEREÇO COMPLETO:");
+                int senha = Integer.parseInt(JOptionPane.showInputDialog(null, "CRIAR CONTA\nSENHA DO USUARIO:"));
+
+                conta++;
+                pessoa.add(new Pessoa(nome, CPF, email, endereco, conta, dinheiro, senha));
+
+                String lista = "Produtos cadastrados:\n\n";
+
+                for (int i = 0; i < pessoa.size(); i++) {
+                    Pessoa pess = pessoa.get(i);
+                    lista
+                            += "Nome: " + pess.getNome() + "\n"
+                            + "CPF: " + pess.getCPF() + "\n"
+                            + "Email: " + pess.getEmail() + "\n"
+                            + "Endereço: " + pess.getEndereco() + "\n"
+                            + "conta numero: " + pess.getConta() + "\n"
+                            + "conta senha: " + pess.getSenha() + "\n\n";
+                }
+
+                JOptionPane.showMessageDialog(null, lista);
+
+                esc1 = 0;
+            } else if (esc1 == 2) {
+                int certin = 0;
+                int senhapessoa = 0;
+                int numcontasenha = 0;
+                while (certin == 0) {
+                    int contacert = Integer.parseInt(JOptionPane.showInputDialog(null, "digite o numero da conta:"));
+                    for (int e = 0; e < pessoa.size(); e++) {
+                        Pessoa pess = pessoa.get(e);
+
+                        if (contacert == pess.getConta()) {
+                            JOptionPane.showMessageDialog(null, "Conta encontrada!");
+                            certin = 1;
+                            numcontasenha = pess.getSenha();
+                        }
+
+                    }
+                }
+                while (certin == 1) {
+                    senhapessoa = Integer.parseInt(JOptionPane.showInputDialog(null, "digite a senha da conta: "));
+
+                    if (senhapessoa == numcontasenha) {
+                        JOptionPane.showMessageDialog(null, "Senha correta!");
+                        certin = 2;
+                    }
+                }
+                certin=0;
+
+                while (esc2 >= 0 && esc2 <= 4) {
+
+                    esc2 = Integer.parseInt(JOptionPane.showInputDialog(null, "______________MENU______________\n1 --> DEPOSITAR\n2 --> SACAR\n3 --> TRANSFERIR\n4 --> LISTAR CONTAS\n5 --> SAIR DA CONTA"));
+
+                    if (esc2 == 1) {
+                        /*int contacert=Integer.parseInt(JOptionPane.showInputDialog(null, "digite o numero da conta:"));
+                    for(int e=0;e<pessoa.size();e++){
+                        Pessoa pess = pessoa.get(e);
+                        if(contacert==pess.getConta()){
+                            JOptionPane.showMessageDialog(null, "Conta encontrada!");
+                        }
+                    }*/
+                        int[] dados = TesteConta();
+                        double valor = 0;
+                        int indice = -1;
+                        for (int i = 0; i < pessoa.size(); i++) {
+                            if (pessoa.get(i).getConta() == dados[0]) {
+                                indice = i;
+                                break;
+                            }
+                        }
+
+                        valor = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o valor a ser depositado:"));
+                        pessoa.get(indice).setDinheiro(pessoa.get(indice).getDinheiro() + valor);
+                        JOptionPane.showMessageDialog(null, "VALOR DE " + valor + "R$ DEPOSITADO NA CONTA " + pessoa.get(indice).getNome() + "\nTOTAL DA CONTA É " + pessoa.get(indice).getDinheiro() + "R$");
+                        esc2 = 0;
+
+                    } else if (esc2 == 2) {
+
+                        int[] dados = TesteConta();
+                        double valor2 = 0;
+                        int indice2 = -1;
+                        for (int i = 0; i < pessoa.size(); i++) {
+                            if (pessoa.get(i).getConta() == dados[0]) {
+                                indice2 = i;
+                                break;
+                            }
+                        }
+                        int positivo=0;
+                        while(positivo==0){
+                        valor2 = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o valor a ser sacado:"));
+                        if(valor2<=pessoa.get(indice2).getDinheiro() && valor2>=0){
+                        pessoa.get(indice2).setDinheiro(pessoa.get(indice2).getDinheiro() - valor2);
+                        JOptionPane.showMessageDialog(null, "VALOR DE " + valor2 + "R$ SACADO NA CONTA " + pessoa.get(indice2).getNome() + "\nTOTAL DA CONTA É " + pessoa.get(indice2).getDinheiro() + "R$");
+                        esc2 = 0;
+                        positivo=1;
+                        }
+                        }
+                        positivo=0;
+
+
+                    } else if (esc2 == 3) {
+
+                        int[] dados = TesteConta();
+                        double valor3 = 0;
+                        int indice3 = -1;
+                        int indice4 = -1;
+                        int conta3 = 0;
+                        int certun = 0;
+
+                        for (int i = 0; i < pessoa.size(); i++) {
+                            if (pessoa.get(i).getConta() == dados[0]) {
+                                indice3 = i;
+                                break;
+                            }
+                        }
+
+                        while (certun == 0) {
+                            valor3 = Double.parseDouble(JOptionPane.showInputDialog(null, "DIGITE O VALOR POSSIVEL A SER TRANSFERIDO"));
+                            if (valor3 <= pessoa.get(indice3).getDinheiro()) {
+                                certun = 1;
+                            }
+                        }
+                        /*TEM UM ERRO AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+                        TEM UM ERRO NA HORA DE VOLTAR PARA O INICIO*/
+
+                        while (indice4 == -1) {
+                            conta3 = Integer.parseInt(
+                                    JOptionPane.showInputDialog(null, "DIGITE O NÚMERO DA CONTA DESTINO:")
+                            );
+
+                            for (int i = 0; i < pessoa.size(); i++) {
+                                if (pessoa.get(i).getConta() == conta3) {
+                                    indice4 = i;
+                                    break;
+                                }
+                            }
+                        }
+
+                        pessoa.get(indice3).setDinheiro(pessoa.get(indice3).getDinheiro() - valor3);
+                        pessoa.get(indice4).setDinheiro(pessoa.get(indice4).getDinheiro() + valor3);
+
+                        esc2 = 0;
+                    } else if (esc2 == 4) {
+                        String text = "";
+                        for (int i = 0; i < pessoa.size(); i++) {
+                            text = text + "CONTA:" + pessoa.get(i).getConta() + "\nNOME DO TITULA: " + pessoa.get(i).getNome() + "\nFUNDOS: " + pessoa.get(i).getDinheiro() + "\n\n";
+                        }
+                        JOptionPane.showMessageDialog(null, text);
+
+                        esc2 = 0;
+                    }
+                    
+                }
+                esc2 = 0;
+                esc1 = 0;
+            } else {
+                JOptionPane.showMessageDialog(null, "PROGRAMA ENCERRADO");
+            }
+        }
+    }
+
+    public int[] TesteConta() {
+        int[] dados = new int[2];
+        int certin = 0;
+        int senhapessoa = 0;
+        int numcontasenha = 0;
+        int contacert = 0;
+        while (certin == 0) {
+            contacert = Integer.parseInt(JOptionPane.showInputDialog(null, "digite o numero da conta:"));
+            for (int e = 0; e < pessoa.size(); e++) {
+                Pessoa pess = pessoa.get(e);
+
+                if (contacert == pess.getConta()) {
+                    JOptionPane.showMessageDialog(null, "Conta encontrada!");
+                    certin = 1;
+                    numcontasenha = pess.getSenha();
+                }
+
+            }
+        }
+        while (certin == 1) {
+            senhapessoa = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite a senha da conta: "));
+
+            if (senhapessoa == numcontasenha) {
+                JOptionPane.showMessageDialog(null, "Senha correta!");
+                certin = 2;
+            }
+        }
+        dados[0] = contacert;
+        dados[1] = numcontasenha;
+
+        return dados;
+    }
+}
+
+public class AtvBanco {
+
+    public static void main(String[] args) {
+        Cadastro cadastro = new Cadastro();
+
+        cadastro.gerente();
+
+    }
+}
