@@ -212,8 +212,7 @@ class Cadastro {
                                 certun = 1;
                             }
                         }
-                        /*TEM UM ERRO AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-                        TEM UM ERRO NA HORA DE VOLTAR PARA O INICIO*/
+                        
 
                         while (indice4 == -1) {
                             conta3 = Integer.parseInt(
